@@ -9,7 +9,7 @@ class Piece
     set_transformation(@type)
   end
   def change_position(new_position)
-    if self.type == 'pawn' || self.type == 'king'
+    if self.type == 'pawn' || self.type == 'king' || self.type == 'rook'
       @is_moved = true
       if self.type == 'pawn'
         @transformation = pawn_transformation
@@ -47,6 +47,7 @@ class Piece
       @is_moved = false
     when 'rook'
       @transformation = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+      @is_moved = false
       @inc = true
     when 'queen'
       @transformation = [[1, 1], [1, -1], [-1, -1], [-1, 1], [0, 1], [1, 0], [0, -1], [-1, 0]]

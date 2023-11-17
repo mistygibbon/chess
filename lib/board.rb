@@ -18,7 +18,7 @@ class Board
 
   def get_piece(location)
     location.each do |coord|
-      if coord>=8 || coord < 0
+      if coord >= 8 || coord < 0
         return nil
       end
     end
@@ -34,6 +34,14 @@ class Board
 
   def remove_piece(location)
     @data[location[0]][location[1]] = nil
+  end
+
+  def get_all_pieces()
+    @data.flatten.filter{|piece| piece.nil? ? false : true}
+  end
+
+  def get_all_pieces_with_side(side)
+    @data.flatten.filter{|piece| piece.nil? ? false : piece.side == side}
   end
 
   def change_position(initial, final)
