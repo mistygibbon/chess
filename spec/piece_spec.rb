@@ -17,6 +17,8 @@ describe Piece do
         pawn.change_position([0,2])
         expect(pawn.is_moved).to be true
       end
+
+      end
     end
   end
 
@@ -29,4 +31,4 @@ describe Piece do
       end
     end
   end
-end
+

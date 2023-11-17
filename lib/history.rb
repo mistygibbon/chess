@@ -12,7 +12,7 @@ class History
   end
 
   def record_history(initial, final, type = nil, capture = nil)
-    capture = @board.capture?(initial, final) if capture.nil?
+    # capture = @board.capture?(initial, final) if capture.nil?
     type = @board.data[initial[0]][initial[1]].type if type.nil?
     initial = initial.reverse
     final = final.reverse
