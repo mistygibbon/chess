@@ -1,5 +1,5 @@
 # Chess game
-A project from The Odin Project
+A chess game that can be played at command line
 
 ## Project structure
 
@@ -22,3 +22,12 @@ A project from The Odin Project
 - Castling
   - Need data on whether king or rook has moved
 - Check
+
+### Todo
+- PGN, FEN import and export
+- Display legal moves
+- AI player
+- Threefold repetition
+- Insufficient material
+- Halfmove rule
+- Better input

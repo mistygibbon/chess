@@ -18,6 +18,16 @@ class Piece
     @position = new_position
   end
 
+  def set_position(new_position)
+    change_position(new_position)
+  end
+
+  def set_is_moved(new)
+    if [true,false].include? new
+      @is_moved = new
+    end
+  end
+
   def pawn_transformation
     if @is_moved
       return [[1, 0]] if @side == 'white'
