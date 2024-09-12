@@ -120,4 +120,52 @@ module Import
     end
     board
   end
+
+  def export_fen(game)
+    unless game.is_a? Game
+      raise 'Illegal argument game'
+    end
+    board = game.board
+    export_fen_piece_placement(board)
+  end
+
+  def get_alphabet(piece)
+    conversion_table = {
+      'king'=> 'k',
+      'queen'=> 'q',
+      'rook'=>'r',
+      'bishop'=>'b',
+      'knight'=>'n',
+      'pawn'=>'p'
+    }
+    if piece.side=='white'
+      conversion_table.fetch(piece.type).upcase
+    else
+      conversion_table.fetch(piece.type)
+    end
+  end
+
+  def export_fen_piece_placement(board)
+    placement_arr = board.data.reverse.map do |row|
+      char_row = row.map{|piece| piece.nil? ? nil:get_alphabet(piece)}
+      char_group = char_row.chunk_while{|i,j| i.nil?&&j.nil?}
+      char_group = char_group.map do |group|
+        if group.uniq.size==1&&group.include?(nil)
+          group.size
+        else
+          group
+        end
+      end
+      char_group.flatten
+      char_group.join('')
+    end
+    placement_arr.join('/')
+  end
 end
+class Wow
+  extend Import
+end
+b = Wow.import_fen_piece_placement('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1')
+p Wow.export_fen_piece_placement(b)
+b= Wow.import_fen_piece_placement('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2')
+p Wow.export_fen_piece_placement(b)

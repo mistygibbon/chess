@@ -29,6 +29,8 @@ class Game
     end
   end
 
+  # Put pieces on the board at starting position
+  #
   def set_pieces
     2.times do |i|
       if i == 0
@@ -52,6 +54,8 @@ class Game
     end
   end
 
+  # Convert user input to position data
+  # @return [Array] first element as row index, second column as column index, blank if input is invalid
   def input_translator(input)
     return [] unless input.match(/^[a-hA-H]\d$/)
     data = input.downcase.split('')
@@ -174,7 +178,7 @@ class Game
   def is_king_in_check_after_move(initial, final)
     false
     temp_board = @board
-    @board = Marshal.load(Marshal.dump(@board)) # copy of the board
+    @board = Marshal.load(Marshal.dump(@board)) # Deep clone of the board
     @board_data = @board.data
     @board.change_position(initial, final) # load changes
     piece = @board.get_piece(final)
@@ -197,6 +201,7 @@ class Game
     moves += legal_moves(position)
     if piece.type == 'pawn'
       moves += get_en_passant_moves(position)
+      moves += get_pawn_capture_moves(position)
     end
     if piece.type = 'king'
       moves + get_castling_moves(side)
@@ -217,16 +222,22 @@ class Game
         break
       end
       if stalemate_detection(side)
-        puts 'stalemate'
+        puts 'Stalemate'
         break
       end
       move = move_piece(side)
       if promotion_detection(side)
         puts 'Your pawn can be promoted. Please choose from queen, rook, bishop or knight'
-        input = gets.chomp
-        @board.get_piece(move[1]).promote_to(input)
+        while true
+          input = gets.chomp.downcase
+          if %w[queen rook bishop knight].include? input
+            @board.get_piece(move[1]).promote_to(input)
+          else
+            puts 'Invalid input'
+            next
+          end
+        end
       end
-      break if won
       i += 1
       if i % 2 == 0
         @fullmove_number += 1
